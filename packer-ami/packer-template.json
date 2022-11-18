@@ -1,0 +1,60 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": "",
+    "vpc_id ": "vpc-0d8d5538112eedd18",
+    "subnet_id": "subnet-040da219a6ce27dd5"
+  },
+  "builders": [
+    {
+      "ami_name": "App-autoscaling",
+      "type": "amazon-ebs",
+      "vpc_id": "{{user `vpc_id`}}",
+      "subnet_id": "{{user `subnet_id`}}",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "eu-central-1",
+      "instance_type": "t2.micro",
+      "ssh_username": "admin",
+      "source_ami_filter": {
+        "filters": {
+            "virtualization-type": "hvm",
+            "name": "debian-11-amd64*",
+            "root-device-type": "ebs"
+          },
+      "owners": ["136693071363"],
+      "most_recent": true
+    },
+      "tags": {
+        "name": "test-app"
+      }
+       
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell-local",
+      "inline": [ "cd ../app && tar cf ../packer-ami/app.tar *" ]
+    },
+    {
+      "type": "file",
+      "source": "app.tar",
+      "destination": "/home/admin/app.tar"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-get install -y python3-venv",
+        "curl -O https://bootstrap.pypa.io/get-pip.py",
+        "python3 get-pip.py --user",
+        "tar xf app.tar",
+        "python3 -m venv .env",
+        ". /home/admin/.env/bin/activate && pip install -r requirements.txt",
+        "sudo cp app.service /etc/systemd/system/app.service",
+        "sudo systemctl enable app.service",
+        "sudo systemctl start app.service"
+      ]
+    }
+  ]
+}
