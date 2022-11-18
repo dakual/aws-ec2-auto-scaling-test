@@ -15,7 +15,7 @@ locals {
   name                = "test"
   environment         = "dev"
   region              = "eu-central-1"
-  ami                 = "ami-0420c6a6e56ce8d3b"
+  ami                 = "ami-075e42117bdb4c693"
   cidr                = "10.0.0.0/16"
   availability_zones  = ["${local.region}a", "${local.region}b"]
   private_subnets     = ["10.0.0.0/20", "10.0.16.0/20"]
