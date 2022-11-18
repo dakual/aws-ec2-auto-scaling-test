@@ -1,7 +1,5 @@
 {
   "variables": {
-    "aws_access_key": "",
-    "aws_secret_key": "",
     "vpc_id ": "vpc-0d8d5538112eedd18",
     "subnet_id": "subnet-040da219a6ce27dd5"
   },
@@ -11,8 +9,6 @@
       "type": "amazon-ebs",
       "vpc_id": "{{user `vpc_id`}}",
       "subnet_id": "{{user `subnet_id`}}",
-      "access_key": "{{user `aws_access_key`}}",
-      "secret_key": "{{user `aws_secret_key`}}",
       "region": "eu-central-1",
       "instance_type": "t2.micro",
       "ssh_username": "admin",
