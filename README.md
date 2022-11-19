@@ -1,7 +1,7 @@
 ## AWS EC2 Auto Scaling Demo
 Before we have to create our own ami.
 ```sh
-cd packer-ali
+cd packer-ami
 packer build packer-template.json
 ```
 
